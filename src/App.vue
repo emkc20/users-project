@@ -1,8 +1,7 @@
 <template>
-  <div>
-    <h1>{{ message }}</h1>
-    <button @click="changeMessage">Mesajı Değiştir</button>
-  </div>
+  <main>
+    <RouterView />
+  </main>
 </template>
 
 <script lang="ts">

@@ -1,5 +1,6 @@
 <template>
   <div class="hello">
+    <p class="hello-human">human</p>
     <h1>{{ msg }}</h1>
     <p>ilhansss</p>
     <p>
@@ -90,4 +91,4 @@ export default defineComponent({
 });
 </script>
 
-<style src="./HelloWorld.css"></style>
+<style lang="scss" src="./HelloWorld.scss"></style>

@@ -1,0 +1,7 @@
+.hello {
+  @apply text-6xl;
+
+  &-human {
+    background-color: aqua;
+  }
+}

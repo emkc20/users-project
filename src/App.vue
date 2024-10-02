@@ -1,21 +1,27 @@
 <template>
   <div>
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
-
-    <p class="text-6xl">ilhan</p>
+    <h1>{{ message }}</h1>
+    <button @click="changeMessage">Mesajı Değiştir</button>
   </div>
 </template>
 
-<script>
-import HelloWorld from './components/HelloWorld.vue';
+<script lang="ts">
+import { defineComponent, ref } from 'vue';
 
-export default {
-  name: 'App',
-  components: {
-    HelloWorld,
+export default defineComponent({
+  setup() {
+    const message = ref<string>('Merhaba TypeScript!');
+
+    const changeMessage = () => {
+      message.value = 'Mesaj değiştirildi!';
+    };
+
+    return {
+      message,
+      changeMessage,
+    };
   },
-};
+});
 </script>
 
 <style>

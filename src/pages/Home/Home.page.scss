@@ -1,0 +1,35 @@
+.home-page {
+  @apply relative;
+
+  .table-container {
+    @apply mx-auto mt-5;
+
+    .table {
+      @apply min-w-full;
+    }
+
+    .table-header {
+      @apply bg-gray-100;
+    }
+
+    th,
+    td {
+      @apply p-3 text-left;
+    }
+
+    .table-cell {
+      @apply text-right #{!important};
+    }
+
+    .action-button {
+      @apply p-2 rounded-md border border-gray-300 hover:bg-gray-200;
+    }
+
+    .status-indicator {
+      @apply inline-block bg-[#F43F5E] w-[10px] h-[6px] gap-0 rounded-[5px];
+    }
+  }
+  .modal-overlay {
+    @apply fixed inset-0 bg-[#0000001F] bg-opacity-50 flex justify-center items-center;
+  }
+}

@@ -4,7 +4,8 @@
 
 <script lang="ts">
 import { useRouter, useRoute } from 'vue-router';
-import { defineComponent, onMounted } from 'vue';
+import { defineComponent, onMounted, computed } from 'vue';
+import { useUserStore } from '../../store/userStore';
 
 export default defineComponent({
   name: 'UserView',
@@ -12,6 +13,10 @@ export default defineComponent({
   setup() {
     const router = useRouter();
     const route = useRoute();
+    const store = useUserStore();
+    const userList = computed(() => store.userList);
+
+    console.log('sss', userList.value);
 
     console.log('route', route.path);
 

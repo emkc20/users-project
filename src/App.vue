@@ -5,25 +5,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
-import MainLayout from './layouts/MainLayout/index.vue';
+import { defineComponent } from 'vue';
+import MainLayout from './layouts/MainLayout/MainLayout.vue';
 
 export default defineComponent({
   name: 'App',
   components: {
     MainLayout,
   },
-  setup() {
-    const message = ref<string>('Merhaba TypeScript!');
-
-    const changeMessage = () => {
-      message.value = 'Mesaj değiştirildi!';
-    };
-
-    return {
-      message,
-      changeMessage,
-    };
-  },
+  setup() {},
 });
 </script>

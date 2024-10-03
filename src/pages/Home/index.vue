@@ -6,21 +6,31 @@
 </template>
 
 <script lang="ts">
-import { useRoute, useRouter } from 'vue-router';
-import { defineComponent } from 'vue';
+import { useRouter } from 'vue-router';
+import { defineComponent, onMounted } from 'vue';
+//import axios from 'axios';
 
 export default defineComponent({
   name: 'HomeView',
 
   setup() {
-    const route = useRoute();
+    //const route = useRoute();
     const router = useRouter();
-
-    console.log('route', route);
 
     const goToUserPage = () => {
       router.push({ path: '/user' });
     };
+
+    const fetchData = async () => {
+      //const response = await axios.get(
+      //  'https://66fdbeb369936930895615b6.mockapi.io/api/users/list'
+      //);
+      //console.log('response', response.data);
+    };
+
+    onMounted(() => {
+      fetchData();
+    });
 
     return {
       goToUserPage,

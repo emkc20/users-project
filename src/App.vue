@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import MainLayout from './layouts/MainLayout/MainLayout.vue';
+import MainLayout from '@/layouts/MainLayout/MainLayout.vue';
 
 export default defineComponent({
   name: 'App',

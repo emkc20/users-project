@@ -1,5 +1,7 @@
 .submit-popup {
   @apply w-[250px] h-[200px] absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl flex justify-center items-center flex-col;
+  box-shadow: rgba(255, 250, 250, 0.2) 0px 2px 8px 0px;
+
 
   &-content {
     @apply flex justify-center items-center mt-3;

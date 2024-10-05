@@ -3,7 +3,7 @@
     <form @submit.prevent="handleSubmit">
       <div class="form-item">
         <label for="name">Name</label>
-        <input type="text" id="name" v-model="form.name" required :placeholder="changeUser.name" :class="{ 'error-input': nameError }" />
+        <input type="text" id="name" v-model="form.name" required :placeholder="userInfo.name" :class="{ 'error-input': nameError }" />
         <span v-if="nameError" class="error">{{ nameError }}</span>
       </div>
 
@@ -15,7 +15,7 @@
           v-model="form.email"
           @blur="validateEmail"
           required
-          :placeholder="changeUser.email"
+          :placeholder="userInfo.email"
           :class="{ 'error-input': emailError }"
         />
         <span v-if="emailError" class="error">{{ emailError }}</span>
@@ -29,7 +29,7 @@
           v-model="form.age"
           @blur="validateAge"
           required
-          :placeholder="changeUser.age"
+          :placeholder="userInfo.age"
           :class="{ 'error-input': ageError }"
         />
         <span v-if="ageError" class="error">{{ ageError }}</span>
@@ -46,7 +46,6 @@
 </template>
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import { useUserStore } from '@/store/userStore';
 import SubmitPopup from '@/components/SubmitPopup/SubmitPopup.vue';
 
 interface Form {
@@ -60,7 +59,7 @@ export default defineComponent({
   components: { SubmitPopup },
 
   props: {
-    changeUser: {
+    userInfo: {
       type: Object,
       require: false,
       default: () => ({}),
@@ -70,7 +69,6 @@ export default defineComponent({
   emits: ['submit'],
 
   setup(props, { emit }) {
-    const store = useUserStore();
     const form = ref<Form>({
       email: '',
       age: null,
@@ -81,6 +79,7 @@ export default defineComponent({
     const nameError = ref<string>('');
     const user = ref<object>({});
     const isSubmit = ref<boolean>(false);
+
     const validateEmail = () => {
       const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       emailError.value = form.value.email && !emailPattern.test(form.value.email) ? 'Geçersiz email formatı.' : '';
@@ -117,7 +116,7 @@ export default defineComponent({
 
       if (!emailError.value && !ageError.value && !nameError.value) {
         user.value = {
-          id: props.changeUser.id || new Date().getMilliseconds(),
+          id: props.userInfo.id || new Date().getMilliseconds(),
           ...form.value,
         };
         isSubmit.value = true;

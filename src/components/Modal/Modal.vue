@@ -48,7 +48,7 @@ export default defineComponent({
 
     const closeModal = () => {
       store.closeModal();
-      history.replaceState(null, '', '/');
+      history.pushState(null, '', '/');
     };
 
     return {

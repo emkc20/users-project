@@ -4,21 +4,21 @@
       <table class="table">
         <thead>
           <tr class="table-header">
-            <th class="text-sm">Name</th>
-            <th class="text-sm">Email</th>
-            <th class="text-sm">Age</th>
-            <th class="table-cell text-sm">Action</th>
+            <th scope="col" class="text-sm">Name</th>
+            <th scope="col" class="text-sm">Email</th>
+            <th scope="col" class="text-sm">Age</th>
+            <th scope="col" class="table-cell text-sm">Action</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="user in userList" :key="user.id" class="table-row">
-            <td>{{ user.name }}</td>
-            <td class="flex items-center">
+          <tr v-for="user in userList" :key="user.id" class="table-row" scope="row">
+            <td data-label="Name">{{ user.name }}</td>
+            <td data-label="Email" class="flex items-center">
               <span class="status-indicator"></span>
               {{ user.email }}
             </td>
-            <td>{{ user.age }}</td>
-            <td>
+            <td data-label="Age">{{ user.age }}</td>
+            <td data-label="Action">
               <div class="flex justify-end space-x-2">
                 <button class="action-button" @click="editUser(user)">Edit</button>
                 <button class="action-button" @click="deleteUser(user.id)">Delete</button>
@@ -28,8 +28,8 @@
         </tbody>
       </table>
       <div v-if="showModal" class="modal-overlay">
-        <Modal @on-close="closeModal()">
-          <UserForm :change-user="addUserPathName ? {} : changeUser" @submit="submitUser"></UserForm>
+        <Modal>
+          <UserForm :user-info="userPathName ? {} : userInfo" @submit="submitUser"></UserForm>
         </Modal>
       </div>
     </div>
@@ -41,7 +41,6 @@ import { computed, defineComponent, onMounted, ref } from 'vue';
 import { useUserStore } from '@/store/userStore';
 import Modal from '../../components/Modal/Modal.vue';
 import UserForm from '@/components/UserForm/UserForm.vue';
-import { useRouter, useRoute } from 'vue-router';
 
 interface User {
   id: number;
@@ -56,14 +55,13 @@ export default defineComponent({
     UserForm,
     Modal,
   },
+
   setup() {
-    const router = useRouter();
-    const route = useRoute();
     const store = useUserStore();
+    const userInfo = ref<object>({});
     const showModal = computed(() => store.showModal);
     const userList = computed(() => store.userList);
-    const changeUser = ref({});
-    const addUserPathName = computed(() => window.location.pathname.includes('/add-user'));
+    const userPathName = computed(() => window.location.pathname.includes('/add-user'));
 
     onMounted(async () => {
       await store.fetchUsers();
@@ -74,22 +72,21 @@ export default defineComponent({
     };
 
     const editUser = (user: User) => {
-      changeUser.value = user;
+      userInfo.value = user;
       store.openModal();
       const uri = `/edit-user/${user?.id}`;
       window.history.pushState(null, '', uri);
     };
 
     const submitUser = (user: User) => {
-      if (addUserPathName.value) {
+      if (userPathName.value) {
         store.createUser(user);
       } else {
-        console.log('sub');
         store.updateUser(user);
       }
 
       store.closeModal();
-      window.history.replaceState(null, '', '/');
+      window.history.pushState(null, '', '/');
     };
 
     return {
@@ -97,9 +94,9 @@ export default defineComponent({
       deleteUser,
       editUser,
       showModal,
-      changeUser,
+      userInfo,
       submitUser,
-      addUserPathName,
+      userPathName,
     };
   },
 });

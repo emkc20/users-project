@@ -29,11 +29,11 @@ export default defineComponent({
   name: 'NavbarView',
 
   setup() {
+    const store = useUserStore();
     const router = useRouter();
     const route = useRoute();
-    const breadcrumbName = ref('');
+    const breadcrumbName = ref<string>('');
     const buttonTitle = computed(() => (route.path === '/' ? 'Add User' : 'Back'));
-    const store = useUserStore();
 
     onMounted(() => {
       getBreadCrumbName();

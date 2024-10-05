@@ -18,4 +18,8 @@ module.exports = {
     ecmaVersion: 2021,
   },
   plugins: ['vue', '@typescript-eslint'],
+  env: {
+    browser: true,
+    node: true,
+  },
 };

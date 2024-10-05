@@ -1,5 +1,5 @@
 .modal {
-  @apply fixed p-10 rounded-lg h-[50%] w-[50%] top-[30%] left-[50%] bg-white transform -translate-x-1/2 -translate-y-[30%];
+  @apply lg:w-[50%] fixed p-10 rounded-lg h-[525px] w-[90%] top-[30%] left-[50%] bg-white transform -translate-x-1/2 -translate-y-[30%];
   box-shadow: rgba(255, 250, 250, 0.2) 0px 2px 8px 0px;
 
   &-header {
@@ -28,8 +28,9 @@
         @apply p-2 rounded bg-white border border-gray-300 mt-1;
       }
     }
+
     .submit {
-      @apply mt-8 flex justify-end  rounded-lg text-white;
+      @apply flex justify-end  rounded-lg text-white;
     }
 
     .submit-button {

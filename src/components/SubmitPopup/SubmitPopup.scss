@@ -1,0 +1,11 @@
+.submit-popup {
+  @apply w-[250px] h-[200px] absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl flex justify-center items-center flex-col;
+
+  &-content {
+    @apply flex justify-center items-center mt-3;
+
+    &-button {
+      @apply p-2 rounded-md border border-gray-300 hover:bg-gray-200 mr-3;
+    }
+  }
+}

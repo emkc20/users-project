@@ -4,7 +4,8 @@ import User from '../pages/User/index.vue';
 
 const routes = [
   { path: '/', component: Home, name: 'home' },
-  { path: '/user', component: User },
+  { path: '/add-user', component: User },
+  { path: '/edit-user/:id', component: User },
 ];
 
 const router = createRouter({

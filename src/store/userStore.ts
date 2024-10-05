@@ -1,10 +1,10 @@
-import axios from 'axios';
 import { defineStore } from 'pinia';
+import axios from 'axios';
 
 interface State {
   userList: User[];
   loading: boolean;
-  initalUserList: [];
+  showModal: boolean;
 }
 
 export const useUserStore = defineStore('user', {
@@ -12,35 +12,46 @@ export const useUserStore = defineStore('user', {
     return {
       userList: [],
       loading: false,
-      initalUserList: [],
+      showModal: false,
     };
   },
   actions: {
     async fetchUsers() {
-      if (this.userList.length > 0) return;
       this.loading = true;
-
       try {
-        const response = await axios.get(
-          'https://66fdbeb369936930895615b6.mockapi.io/api/users/list'
-        );
+        const response = await axios.get('https://66fdbeb369936930895615b6.mockapi.io/api/users/list');
         this.userList = response.data;
       } catch (err) {
-        console.log((err) => err);
+        console.log(err => err);
       } finally {
         this.loading = false;
       }
     },
 
-    updateUser(user: User) {
-      const index = this.userList.findIndex((user) => user.id === user.id);
+    async updateUser(user: User) {
+      const index = this.userList.findIndex(item => item.id === user.id);
       if (index !== -1) {
         this.userList[index] = user;
       }
+      await axios.put(`https://66fdbeb369936930895615b6.mockapi.io/api/users/list/${user.id}`, user);
     },
 
-    deleteUser(id) {
-      this.userList = this.userList.filter((user) => user.id !== id);
+    async deleteUser(id: number) {
+      this.userList = this.userList.filter(user => user.id !== id);
+
+      await axios.delete(`https://66fdbeb369936930895615b6.mockapi.io/api/users/list/${id}`);
+    },
+
+    async createUser(user: User) {
+      this.userList = [...this.userList, user];
+      await axios.post(`https://66fdbeb369936930895615b6.mockapi.io/api/users/list`, user);
+    },
+
+    openModal() {
+      this.showModal = true;
+    },
+    closeModal() {
+      this.showModal = false;
     },
   },
 });
@@ -49,5 +60,5 @@ interface User {
   id: number;
   name: string;
   email: string;
-  age: number;
+  age?: number;
 }

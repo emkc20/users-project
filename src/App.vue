@@ -13,6 +13,5 @@ export default defineComponent({
   components: {
     MainLayout,
   },
-  setup() {},
 });
 </script>

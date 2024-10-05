@@ -1,0 +1,27 @@
+.user-page {
+  @apply mt-5;
+
+  .form-item {
+    @apply w-full flex flex-col mt-5;
+
+    input {
+      @apply p-2 rounded bg-white border border-gray-300 mt-1;
+    }
+  }
+
+  .submit {
+    @apply mt-8 flex justify-end  rounded-lg text-white;
+  }
+
+  .submit-button {
+    @apply mt-8 flex justify-end p-2.5 rounded-lg bg-[#1E293B] text-white;
+  }
+
+  .error-input {
+    @apply border-2 border-red-500 #{!important};
+  }
+
+  .error {
+    @apply text-red-500;
+  }
+}

@@ -1,34 +1,53 @@
 <template>
-  <div @click="goToBack()">User</div>
+  <div class="user-page">
+    <UserForm :change-user="user" @submit="submitUser"></UserForm>
+  </div>
 </template>
 
 <script lang="ts">
 import { useRouter, useRoute } from 'vue-router';
-import { defineComponent, onMounted, computed } from 'vue';
-import { useUserStore } from '../../store/userStore';
+import { defineComponent, onMounted, computed, ref } from 'vue';
+import { useUserStore } from '@/store/userStore';
+import Modal from '../../components/Modal/Modal.vue';
+import axios from 'axios';
+import UserForm from '@/components/UserForm/UserForm.vue';
 
 export default defineComponent({
   name: 'UserView',
+  components: {
+    UserForm,
+    Modal,
+  },
 
   setup() {
     const router = useRouter();
     const route = useRoute();
     const store = useUserStore();
-    const userList = computed(() => store.userList);
+    const routeParams = computed(() => route.params.id);
+    const user = ref({});
 
-    console.log('sss', userList.value);
-
-    console.log('route', route.path);
-
-    onMounted(() => {
-      if (route.path === '/user') console.log('girdi');
+    onMounted(async () => {
+      if (routeParams.value) {
+        const response = await axios.get(`https://66fdbeb369936930895615b6.mockapi.io/api/users/list/${routeParams.value}`);
+        user.value = response.data;
+      }
     });
 
-    const goToBack = () => {
+    const submitUser = async user => {
+      console.log('log');
+      if (routeParams.value) {
+        await axios.put(`https://66fdbeb369936930895615b6.mockapi.io/api/users/list/${user.id}`, user);
+      } else {
+        await axios.post(`https://66fdbeb369936930895615b6.mockapi.io/api/users/list`, user);
+      }
       router.push({ path: '/' });
     };
 
-    return { goToBack };
+    return {
+      user,
+      submitUser,
+    };
   },
 });
 </script>
+<style lang="scss" src="./User.scss"></style>

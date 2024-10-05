@@ -1,13 +1,7 @@
 <template>
   <div class="navbar">
     <div class="navbar-left">
-      <svg
-        width="16"
-        height="16"
-        viewBox="0 0 16 16"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
+      <svg class="mr-2" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
           fill-rule="evenodd"
           clip-rule="evenodd"
@@ -15,15 +9,11 @@
           stroke="#1E293B"
           stroke-width="1.5"
         />
-        <path
-          d="M6 11.3333H10"
-          stroke="#1E293B"
-          stroke-width="1.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        />
+        <path d="M6 11.3333H10" stroke="#1E293B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
       </svg>
-      <span> / Users {{ breadcrumbName }}</span>
+      <p>
+        / Users <span class="font-bold">{{ breadcrumbName }}</span>
+      </p>
     </div>
     <div class="navbar-right">
       <button @click="goToPage()">{{ buttonTitle }}</button>
@@ -31,8 +21,9 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, onMounted, watch, ref } from 'vue';
+import { defineComponent, onMounted, watch, ref, computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
+import { useUserStore } from '@/store/userStore';
 
 export default defineComponent({
   name: 'NavbarView',
@@ -41,7 +32,8 @@ export default defineComponent({
     const router = useRouter();
     const route = useRoute();
     const breadcrumbName = ref('');
-    const buttonTitle = ref('');
+    const buttonTitle = computed(() => (route.path === '/' ? 'Add User' : 'Back'));
+    const store = useUserStore();
 
     onMounted(() => {
       getBreadCrumbName();
@@ -55,20 +47,22 @@ export default defineComponent({
     );
 
     const getBreadCrumbName = () => {
-      if (route.path === '/user') {
-        breadcrumbName.value = ' / Create User';
-        buttonTitle.value = 'Back';
+      if (route.path.includes('add')) {
+        breadcrumbName.value = ' / Add User';
+      } else if (route.path.includes('edit')) {
+        breadcrumbName.value = ' / Edit User';
       } else {
         breadcrumbName.value = '';
-        buttonTitle.value = 'Add User';
       }
     };
 
     const goToPage = () => {
-      if (route.path === '/user') {
-        router.go(-1);
+      if (route.path === '/') {
+        store.openModal();
+        window.history.pushState(null, '', `/add-user`);
+      } else {
+        router.push('/');
       }
-      router.push({ path: '/user' });
     };
 
     return { goToPage, buttonTitle, breadcrumbName };

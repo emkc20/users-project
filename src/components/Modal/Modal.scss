@@ -1,9 +1,9 @@
 .modal {
-  @apply lg:w-[50%] fixed p-10 rounded-lg h-[525px] w-[90%] top-[30%] left-[50%] bg-white transform -translate-x-1/2 -translate-y-[30%];
+  @apply lg:w-[50%] fixed p-10 rounded-lg w-[90%] top-[30%] left-[50%] bg-white transform -translate-x-1/2 -translate-y-[30%];
   box-shadow: rgba(255, 250, 250, 0.2) 0px 2px 8px 0px;
 
   &-header {
-    @apply flex justify-between;
+    @apply flex justify-between items-center;
 
     &-title {
       @apply flex items-center;
@@ -14,7 +14,7 @@
     }
 
     &-exit {
-      @apply cursor-pointer;
+      @apply cursor-pointer flex h-10 w-10 items-center justify-center rounded-full border border-gray-300;
     }
   }
 

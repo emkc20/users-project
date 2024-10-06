@@ -8,7 +8,7 @@
       </div>
 
       <div class="form-item">
-        <label for="email">Email</label>
+        <label for="email">Email </label>
         <input
           type="email"
           id="email"
@@ -36,7 +36,7 @@
       </div>
 
       <div class="submit">
-        <button class="submit-button" type="submit">Gönder</button>
+        <button class="submit-button" type="submit">Send</button>
       </div>
     </form>
     <div v-if="isSubmit" class="form-popup">
@@ -81,38 +81,35 @@ export default defineComponent({
     const isSubmit = ref<boolean>(false);
 
     const validateEmail = () => {
+      //email kontrolu yapılıyor
       const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       emailError.value = form.value.email && !emailPattern.test(form.value.email) ? 'Geçersiz email formatı.' : '';
     };
 
-    const validateAge = () => {
-      ageError.value = form.value.age !== null && (form.value.age < 0 || form.value.age > 120) ? 'Yaş 0 ile 120 arasında olmalıdır.' : '';
-    };
-
-    const validateFields = () => {
-      nameError.value = form.value.name ? '' : 'İsim alanı boş olamaz.';
-    };
-
-    const validateNameInput = () => {
+    const validateName = () => {
+      //name kontrolu yapılıyor
       const namePattern = /^[A-Za-zğüşöçİĞÜŞÖÇ\s]+$/;
       nameError.value = form.value.name && !namePattern.test(form.value.name) ? 'İsim yalnızca harflerden oluşmalıdır.' : '';
     };
 
-    const validateAgeInput = () => {
+    const validateAge = () => {
+      //yaş kontrolu yapılıyor
       const agePattern = /^[0-9]*$/;
       if (form.value.age !== null && !agePattern.test(form.value.age.toString())) {
         ageError.value = 'Yaş yalnızca sayılardan oluşmalıdır.';
+      } else if (form.value.age !== null && (form.value.age < 0 || form.value.age > 120)) {
+        ageError.value = 'Yaş 0 ile 120 arasında olmalıdır.';
       } else {
         ageError.value = '';
       }
     };
 
     const handleSubmit = () => {
+      //send butonuna tıklanıldığında validasyon işlmeleri çalışır
+      //hata varsa hata mesajı döner, yoksa user objesinin içi doldurulur
       validateEmail();
       validateAge();
-      validateFields();
-      validateNameInput();
-      validateAgeInput();
+      validateName();
 
       if (!emailError.value && !ageError.value && !nameError.value) {
         user.value = {
@@ -124,12 +121,15 @@ export default defineComponent({
     };
 
     const setSubmit = () => {
+      //user bilgileri üst component'e gönderilir
       isSubmit.value = false;
 
       emit('submit', user.value);
     };
 
     const cancelSubmit = () => {
+      //form.value'nun içi boşaltılır
+
       form.value.email = '';
       form.value.age = null;
       form.value.name = '';
@@ -143,7 +143,7 @@ export default defineComponent({
       nameError,
       validateEmail,
       validateAge,
-      validateFields,
+      validateName,
       handleSubmit,
       isSubmit,
       setSubmit,

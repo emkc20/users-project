@@ -1,9 +1,9 @@
 <template>
   <div class="submit-popup">
-    <p>Değişiklikler Kaydedilsin mi?</p>
+    <p>Save the changes?</p>
     <div class="submit-popup-content">
-      <button class="submit-popup-content-button" @click="setSubmit">Evet</button>
-      <button class="submit-popup-content-button" @click="cancelSubmit">Hayır</button>
+      <button class="submit-popup-content-button" @click="setSubmit">Yes</button>
+      <button class="submit-popup-content-button" @click="cancelSubmit">No</button>
     </div>
   </div>
 </template>
@@ -18,9 +18,11 @@ export default defineComponent({
 
   setup(props, { emit }) {
     const setSubmit = () => {
+      //user bilgilerini kaydetmek için üst componente emit fırlatır
       emit('setSubmit');
     };
     const cancelSubmit = () => {
+      //modala dönmek için üst componente emit fırlatır
       emit('cancelSubmit');
     };
 

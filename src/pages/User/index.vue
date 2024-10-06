@@ -26,6 +26,7 @@ export default defineComponent({
     const baseUrl = process.env.VUE_APP_BASE_URL;
 
     onMounted(async () => {
+      //sayfa mount olduğunda id'e göre kullanıcı bilgisi getiriliyor
       if (routeParams.value) {
         const response = await axios.get(`${baseUrl}/list/${routeParams.value}`);
         user.value = response.data;
@@ -33,8 +34,10 @@ export default defineComponent({
     });
 
     const submitUser = async user => {
+      //routeParams ile hangi sayfada olunduğu kontrolü yapılıyor ve ona göre veriler api'ye gönderiliyor
+
       if (routeParams.value) {
-        await axios.put(`${baseUrl}/list/${user.id}`, user);
+        await axios.put(`${baseUrl}/list/${user?.id}`, user);
       } else {
         await axios.post(`${baseUrl}/list`, user);
       }

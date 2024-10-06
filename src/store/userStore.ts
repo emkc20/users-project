@@ -26,7 +26,7 @@ export const useUserStore = defineStore('user', {
   },
   actions: {
     async fetchUsers() {
-      console.log('baseURL', process.env.VUE_APP_BASE_URL);
+      //bütün user bilgileri api'den çekilir
       this.loading = true;
       try {
         const response = await axios.get(`${this.baseURL}/list`);
@@ -39,6 +39,8 @@ export const useUserStore = defineStore('user', {
     },
 
     async updateUser(user: User) {
+      //user edit yapıldığında localede ki liste güncellenir ve api'ye istek atılır
+
       const index = this.userList.findIndex(item => item.id === user.id);
       if (index !== -1) {
         this.userList[index] = user;
@@ -47,20 +49,26 @@ export const useUserStore = defineStore('user', {
     },
 
     async deleteUser(id: number) {
+      //user delete yapıldığında localeden silinir ve api'ye istek atılır
+
       this.userList = this.userList.filter(user => user.id !== id);
 
       await axios.delete(`${this.baseURL}/list/${id}`);
     },
 
     async createUser(user: User) {
+      //yeni user eklendiğinde locele güncellenir ve api'ye istek atılır
+
       this.userList = [user, ...this.userList];
       await axios.post(`${this.baseURL}/list`, user);
     },
 
     openModal() {
+      //modal açılır
       this.showModal = true;
     },
     closeModal() {
+      //modal kapatılır
       this.showModal = false;
     },
   },

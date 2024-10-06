@@ -5,20 +5,28 @@
     @apply mx-auto mt-5;
 
     .table {
-      @apply min-w-full;
+      @apply min-w-full text-[#4F5659]
     }
 
     .table-header {
-      @apply bg-gray-100;
+      @apply bg-[#F1F5F9];
+    }
+
+    th {
+      @apply text-slate-500 font-medium ;
+    }
+
+    tr {
+      @apply hover:bg-[#F1F5F9] cursor-pointer;
     }
 
     th,
     td {
-      @apply p-3 text-left;
+      @apply p-3 text-left ;
     }
 
     .table-cell {
-      @apply text-right #{!important};
+      @apply text-right;
     }
 
     .action-button {
@@ -26,11 +34,47 @@
     }
 
     .status-indicator {
-      @apply inline-block bg-[#F43F5E] w-[10px] h-[6px] gap-0 rounded-[5px];
+      @apply inline-block bg-[#F43F5E] w-[10px] h-[6px] rounded-[5px] sm:mb-[2px];
+    }
+
+
+    .modal-overlay {
+      @apply fixed inset-0 bg-[#0000001F] bg-opacity-50 flex justify-center items-center;
     }
   }
+}
 
-  .modal-overlay {
-    @apply fixed inset-0 bg-[#0000001F] bg-opacity-50 flex justify-center items-center;
+
+/* Responsive Design */
+@media screen and (max-width: 600px) {
+  .table {
+    @apply border-0;
+  }
+
+  .table-header {
+    @apply hidden sm:block;
+  }
+
+  .table-row {
+    @apply block mb-6 border border-gray-300 rounded-lg shadow-md;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  }
+
+  td {
+    @apply flex justify-end items-center text-right text-xs relative border-b border-gray-300 py-2 pl-12;
+  }
+
+  td::before {
+    content: attr(data-label);
+    @apply absolute left-2 font-bold uppercase text-xs text-gray-500;
+
+  }
+
+  td:last-child {
+    @apply border-b-0;
+  }
+
+  .status-indicator {
+    @apply mt-0.5 mr-0.5;
   }
 }

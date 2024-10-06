@@ -18,14 +18,13 @@
           </svg>
         </div>
         <div class="modal-header-title-topic">
-          <h1 class="text-xl">Edit User</h1>
+          <h1 class="text-xl">{{ modalTitle }}</h1>
           <p>Description</p>
         </div>
       </div>
       <div @click="closeModal" class="modal-header-exit">X</div>
     </div>
     <div class="modal-content">
-      <h1>Form Oluşturma</h1>
       <slot></slot>
     </div>
   </div>
@@ -40,6 +39,12 @@ export default defineComponent({
   components: {
     UserForm,
   },
+  props: {
+    modalTitle: {
+      type: String,
+      required: true,
+    },
+  },
 
   emits: ['clicked', 'handleUser'],
 
@@ -47,6 +52,7 @@ export default defineComponent({
     const store = useUserStore();
 
     const closeModal = () => {
+      //modal kapatılır ve sayfa yönlendirilmesi yapılır
       store.closeModal();
       history.pushState(null, '', '/');
     };

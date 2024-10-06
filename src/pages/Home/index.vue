@@ -4,16 +4,16 @@
       <table class="table">
         <thead>
           <tr class="table-header">
-            <th scope="col" class="text-sm">Name</th>
-            <th scope="col" class="text-sm">Email</th>
-            <th scope="col" class="text-sm">Age</th>
-            <th scope="col" class="table-cell text-sm">Action</th>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Age</th>
+            <th scope="col" class="table-cell">Action</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="user in userList" :key="user.id" class="table-row" scope="row">
             <td data-label="Name">{{ user.name }}</td>
-            <td data-label="Email" class="flex items-center">
+            <td data-label="Email">
               <span class="status-indicator"></span>
               {{ user.email }}
             </td>
@@ -28,7 +28,7 @@
         </tbody>
       </table>
       <div v-if="showModal" class="modal-overlay">
-        <Modal>
+        <Modal :modal-title="modalTitle">
           <UserForm :user-info="userPathName ? {} : userInfo" @submit="submitUser"></UserForm>
         </Modal>
       </div>
@@ -39,7 +39,7 @@
 <script lang="ts">
 import { computed, defineComponent, onMounted, ref } from 'vue';
 import { useUserStore } from '@/store/userStore';
-import Modal from '../../components/Modal/Modal.vue';
+import Modal from '@/components/Modal/Modal.vue';
 import UserForm from '@/components/UserForm/UserForm.vue';
 
 interface User {
@@ -59,19 +59,18 @@ export default defineComponent({
   setup() {
     const store = useUserStore();
     const userInfo = ref<object>({});
-    const showModal = computed(() => store.showModal);
-    const userList = computed(() => store.userList);
-    const userPathName = computed(() => window.location.pathname.includes('/add-user'));
+    const showModal = computed<boolean>(() => store.showModal);
+    const userList = computed<object>(() => store.userList);
+    const userPathName = computed<boolean>(() => window.location.pathname.includes('/add-user'));
+    const modalTitle = computed<string>(() => (userPathName.value ? 'Add User' : 'Edit User'));
 
     onMounted(async () => {
+      //sayfa mount olduğunda kullanıcılır yüklenir
       await store.fetchUsers();
     });
 
-    const deleteUser = (id: number) => {
-      store.deleteUser(id);
-    };
-
     const editUser = (user: User) => {
+      //edit butonuna tıklanıldığında alınan aksiyonlar
       userInfo.value = user;
       store.openModal();
       const uri = `/edit-user/${user?.id}`;
@@ -79,6 +78,9 @@ export default defineComponent({
     };
 
     const submitUser = (user: User) => {
+      //submit işlemi yapıldığında alınan asksiyonlar
+      //userPathName ile hangi sayfada olunduğu kontrolü yapılır
+
       if (userPathName.value) {
         store.createUser(user);
       } else {
@@ -89,6 +91,12 @@ export default defineComponent({
       window.history.pushState(null, '', '/');
     };
 
+    const deleteUser = (id: number) => {
+      //delete butonuna tıklanıldığında alınan aksiyonlar
+
+      store.deleteUser(id);
+    };
+
     return {
       userList,
       deleteUser,
@@ -97,6 +105,7 @@ export default defineComponent({
       userInfo,
       submitUser,
       userPathName,
+      modalTitle,
     };
   },
 });

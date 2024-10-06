@@ -47,6 +47,7 @@ export default defineComponent({
     );
 
     const getBreadCrumbName = () => {
+      //BreadCrumbName oluşturulur
       if (route.path.includes('add')) {
         breadcrumbName.value = ' / Add User';
       } else if (route.path.includes('edit')) {
@@ -57,6 +58,7 @@ export default defineComponent({
     };
 
     const goToPage = () => {
+      //sayfa yönlendirilmesi yapılır
       if (route.path === '/') {
         store.openModal();
         window.history.pushState(null, '', `/add-user`);

@@ -1,6 +1,6 @@
 <template>
   <div class="submit-popup">
-    <p>Save the changes?</p>
+    <p class="text-center">{{ question }}</p>
     <div class="submit-popup-content">
       <button class="submit-popup-content-button" @click="setSubmit">Yes</button>
       <button class="submit-popup-content-button" @click="cancelSubmit">No</button>
@@ -12,7 +12,14 @@
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: 'SubmitPopView',
+  name: 'UserActionPopup',
+  props: {
+    question: {
+      type: String,
+      required: true,
+      default: '',
+    },
+  },
 
   emits: ['setSubmit', 'cancelSubmit'],
 
@@ -31,4 +38,4 @@ export default defineComponent({
 });
 </script>
 
-<style src="./SubmitPopup.scss" lang="scss"></style>
+<style src="./UserActionPopup.scss" lang="scss"></style>

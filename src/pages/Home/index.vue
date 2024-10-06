@@ -21,7 +21,7 @@
             <td data-label="Action">
               <div class="flex justify-end space-x-2">
                 <button class="action-button" @click="editUser(user)">Edit</button>
-                <button class="action-button" @click="deleteUser(user.id)">Delete</button>
+                <button class="action-button" @click="openDeleteModal(user.id)">Delete</button>
               </div>
             </td>
           </tr>
@@ -32,6 +32,13 @@
           <UserForm :user-info="userPathName ? {} : userInfo" @submit="submitUser"></UserForm>
         </Modal>
       </div>
+      <div v-if="showDeleteModal" class="modal-overlay">
+        <UserActionPopup
+          @set-submit="deleteUser"
+          @cancel-submit="showDeleteModal = false"
+          question="Are you sure you want to delete this user?"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -41,6 +48,7 @@ import { computed, defineComponent, onMounted, ref } from 'vue';
 import { useUserStore } from '@/store/userStore';
 import Modal from '@/components/Modal/Modal.vue';
 import UserForm from '@/components/UserForm/UserForm.vue';
+import UserActionPopup from '@/components/UserActionPopup/UserActionPopup.vue';
 
 interface User {
   id: number;
@@ -52,6 +60,7 @@ interface User {
 export default defineComponent({
   name: 'HomeView',
   components: {
+    UserActionPopup,
     UserForm,
     Modal,
   },
@@ -60,6 +69,8 @@ export default defineComponent({
     const store = useUserStore();
     const userInfo = ref<object>({});
     const showModal = computed<boolean>(() => store.showModal);
+    const showDeleteModal = ref<boolean>(false);
+    const userId = ref<number | null>(null);
     const userList = computed<object>(() => store.userList);
     const userPathName = computed<boolean>(() => window.location.pathname.includes('/add-user'));
     const modalTitle = computed<string>(() => (userPathName.value ? 'Add User' : 'Edit User'));
@@ -91,21 +102,32 @@ export default defineComponent({
       window.history.pushState(null, '', '/');
     };
 
-    const deleteUser = (id: number) => {
-      //delete butonuna tıklanıldığında alınan aksiyonlar
+    const openDeleteModal = (id: number) => {
+      //delete butonuna tıklanıldığında modal açılır
+      userId.value = id;
+      showDeleteModal.value = true;
+    };
 
-      store.deleteUser(id);
+    const deleteUser = () => {
+      //delete işlemi gerçekleşir
+      if (userId.value !== null) {
+        store.deleteUser(userId.value);
+      }
+      showDeleteModal.value = false;
     };
 
     return {
       userList,
-      deleteUser,
+      openDeleteModal,
       editUser,
       showModal,
       userInfo,
       submitUser,
       userPathName,
       modalTitle,
+      showDeleteModal,
+      userId,
+      deleteUser,
     };
   },
 });

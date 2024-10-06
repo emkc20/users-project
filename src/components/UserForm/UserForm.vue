@@ -40,13 +40,13 @@
       </div>
     </form>
     <div v-if="isSubmit" class="form-popup">
-      <SubmitPopup @set-submit="setSubmit" @cancel-submit="cancelSubmit" />
+      <UserActionPopup question="Saving changes?" @set-submit="setSubmit" @cancel-submit="cancelSubmit" />
     </div>
   </div>
 </template>
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import SubmitPopup from '@/components/SubmitPopup/SubmitPopup.vue';
+import UserActionPopup from '@/components/UserActionPopup/UserActionPopup.vue';
 
 interface Form {
   email: string;
@@ -56,7 +56,7 @@ interface Form {
 
 export default defineComponent({
   name: 'FormView',
-  components: { SubmitPopup },
+  components: { UserActionPopup },
 
   props: {
     userInfo: {

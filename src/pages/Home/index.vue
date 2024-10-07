@@ -4,10 +4,10 @@
       <table class="table">
         <thead>
           <tr class="table-header">
-            <th scope="col">Name</th>
+            <th scope="col" class="rounded-tl-md">Name</th>
             <th scope="col">Email</th>
             <th scope="col">Age</th>
-            <th scope="col" class="table-cell">Action</th>
+            <th scope="col" class="table-cell rounded-tr-md">Action</th>
           </tr>
         </thead>
         <tbody>
